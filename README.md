@@ -2,7 +2,7 @@
 
 A simple React chatbot application using OpenAI's API for generating responses. This project demonstrates how to create a conversational interface with AI capabilities.
 
-> Check out the live demo [here](https://react-ai-chatbot.vercel.app/)
+> Check out the live demo [here](https://react-ai-chatter.vercel.app/)
 
 ## Features
 
