@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { LuBot, LuSendHorizontal } from 'react-icons/lu';
 import useChatBot from '../hooks/useChatbot';
+import Markdown from 'react-markdown';
 
 const ChatComponent: React.FunctionComponent = () => {
   const [input, setInput] = React.useState<string>('');
@@ -26,7 +27,7 @@ const ChatComponent: React.FunctionComponent = () => {
                 : 'bg-gray-300 text-gray-800'
             }`}
           >
-            {msg.text}
+            <Markdown>{msg.text}</Markdown>
           </div>
         ))}
       </div>
