@@ -1,4 +1,4 @@
-# React CHatBOT
+# React Chatbot
 
 A simple React chatbot application using OpenAI's API for generating responses. This project demonstrates how to create a conversational interface with AI capabilities.
 
