@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from 'axios';
+import { useState } from 'react';
 
 interface Message {
   text: string;
@@ -9,32 +10,31 @@ const useChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const sendMessage = async (userMessage: string) => {
-    const newMessages: Message[] = [...messages, { text: userMessage, sender: 'user' }];
+    const newMessages: Message[] = [
+      ...messages,
+      { text: userMessage, sender: 'user' },
+    ];
     setMessages(newMessages);
     try {
-        
+      // Get responses using the new response API
+      const response = await axios.post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: userMessage }],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const botMessage = response.data.choices[0].message.content;
+      setMessages([...newMessages, { text: botMessage, sender: 'bot' }]);
     } catch (error) {
-        
-    }
-    const botResponse = await fetchBotResponse(userMessage);
-    const newBotMessage: Message = { text: botResponse, sender: 'bot' };
-    setMessages((prevMessages) => [...prevMessages, newBotMessage]);
-  };
-
-  const fetchBotResponse = async (userMessage: string): Promise<string> => {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.OPENAI_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: userMessage }],
-      }),
-    });
-    const data = await response.json();
-    return data.choices[0].message.content;
+      console.error('Error fetching AI response:', error);
+    };
   };
 
   return { messages, sendMessage };
