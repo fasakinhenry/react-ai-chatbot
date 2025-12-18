@@ -34,7 +34,7 @@ const useChatBot = () => {
       setMessages([...newMessages, { text: botMessage, sender: 'bot' }]);
     } catch (error) {
       console.error('Error fetching AI response:', error);
-    };
+    }
   };
 
   return { messages, sendMessage };
